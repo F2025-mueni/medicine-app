@@ -1,12 +1,15 @@
+// login.js
 import { auth, db } from './firebase.js';
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 async function login(email, password) {
   try {
+    // Sign in the user
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const uid = userCredential.user.uid;
 
+    // Get user data from Firestore
     const docRef = doc(db, "users", uid);
     const docSnap = await getDoc(docRef);
 
@@ -20,17 +23,20 @@ async function login(email, password) {
     console.log("UID:", uid);
     console.log("Role:", role);
 
+    // Redirect based on role (use relative paths for GitHub Pages)
     if (role?.trim().toLowerCase() === "admin") {
-      window.location.href = "/admin.html";
+      window.location.href = "admin.html"; // removed leading /
     } else {
-      window.location.href = "/user.html";
+      window.location.href = "user.html"; // removed leading /
     }
+
   } catch (error) {
     alert("Login failed: " + error.message);
     console.error(error);
   }
 }
 
+// Attach form submit handler
 const loginForm = document.getElementById("loginForm");
 loginForm.addEventListener("submit", (e) => {
   e.preventDefault();
