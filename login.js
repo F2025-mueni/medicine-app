@@ -1,5 +1,7 @@
 // login.js
-import { auth, db } from './firebase.js';
+// Make sure to include this in your HTML with: <script type="module" src="./login.js"></script>
+
+import { auth, db } from './firebase.js'; // must be in the same folder
 import { signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
@@ -25,9 +27,9 @@ async function login(email, password) {
 
     // Redirect based on role (use relative paths for GitHub Pages)
     if (role?.trim().toLowerCase() === "admin") {
-      window.location.href = "admin.html"; // removed leading /
+      window.location.href = "./admin.html"; // relative path
     } else {
-      window.location.href = "user.html"; // removed leading /
+      window.location.href = "./user.html";  // relative path
     }
 
   } catch (error) {
@@ -38,9 +40,13 @@ async function login(email, password) {
 
 // Attach form submit handler
 const loginForm = document.getElementById("loginForm");
-loginForm.addEventListener("submit", (e) => {
-  e.preventDefault();
-  const email = document.getElementById("email").value;
-  const password = document.getElementById("password").value;
-  login(email, password);
-});
+if (loginForm) {
+  loginForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    login(email, password);
+  });
+} else {
+  console.error("Login form not found on this page!");
+}
