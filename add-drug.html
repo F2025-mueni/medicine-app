@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Drug</title>
+  <link rel="stylesheet" href="add-drug.css">
+</head>
+<body>
+<form>
+  <h2>Add Drug</h2>
+
+  <input type="text" placeholder="Drug Name" required>
+  <input type="number" placeholder="Price" required>
+  <input type="number" placeholder="Quantity" required>
+  <input type="date" required>
+
+  <select id="category" required>
+    <option value="">Select Category</option>
+
+    <optgroup label="Pain & Inflammation">
+      <option value="Analgesic">Analgesic</option>
+      <option value="NSAIDs">NSAIDs</option>
+      <option value="Opioids">Opioids</option>
+      <option value="Antipyretic">Antipyretic</option>
+    </optgroup>
+
+    <optgroup label="Infections">
+      <option value="Antibiotic">Antibiotic</option>
+      <option value="Antiviral">Antiviral</option>
+      <option value="Antifungal">Antifungal</option>
+      <option value="Antiparasitic">Antiparasitic</option>
+      <option value="Antimalarial">Antimalarial</option>
+    </optgroup>
+
+    <optgroup label="Cardiovascular">
+      <option value="Antihypertensive">Antihypertensive</option>
+      <option value="Diuretics">Diuretics</option>
+      <option value="Anticoagulants">Anticoagulants</option>
+      <option value="Beta Blockers">Beta Blockers</option>
+    </optgroup>
+
+    <optgroup label="Respiratory">
+      <option value="Antihistamines">Antihistamines</option>
+      <option value="Bronchodilators">Bronchodilators</option>
+      <option value="Cough Suppressants">Cough Suppressants</option>
+    </optgroup>
+
+    <optgroup label="Gastrointestinal">
+      <option value="Antacids">Antacids</option>
+      <option value="Antiulcer">Antiulcer</option>
+      <option value="Laxatives">Laxatives</option>
+      <option value="Antiemetics">Antiemetics</option>
+    </optgroup>
+
+    <optgroup label="Endocrine">
+      <option value="Antidiabetic">Antidiabetic</option>
+      <option value="Insulin">Insulin</option>
+      <option value="Thyroid Drugs">Thyroid Drugs</option>
+    </optgroup>
+
+    <optgroup label="CNS (Brain & Mental Health)">
+      <option value="Antidepressants">Antidepressants</option>
+      <option value="Antipsychotics">Antipsychotics</option>
+      <option value="Sedatives">Sedatives</option>
+      <option value="Antiepileptics">Antiepileptics</option>
+    </optgroup>
+
+    <optgroup label="Supplements">
+      <option value="Vitamins">Vitamins</option>
+      <option value="Minerals">Minerals</option>
+      <option value="Herbal">Herbal</option>
+    </optgroup>
+
+    <optgroup label="Others">
+      <option value="Vaccines">Vaccines</option>
+      <option value="Hormones">Hormones</option>
+      <option value="Oncology">Oncology (Cancer)</option>
+    </optgroup>
+    <optgroup label="Reproductive Health & Family Planning">
+  <option value="Contraceptives">Contraceptives</option>
+  <option value="Oral Contraceptives">Oral Contraceptives</option>
+  <option value="Injectable Contraceptives">Injectable Contraceptives</option>
+  <option value="Emergency Contraceptives">Emergency Contraceptives</option>
+  <option value="Condoms">Condoms</option>
+</optgroup>
+
+<optgroup label="Personal Care & Hygiene">
+  <option value="Sanitary Towels">Sanitary Towels</option>
+</optgroup>
+<optgroup label="Topical Products">
+  <option value="Creams">Creams</option>
+
+</optgroup>
+
+  </select>
+
+  <button>Add</button>
+</form>
+
+<script type="module" src="app.js"></script>
+<script type="module" src="add-drug.js"></script>
+</body>
+</html>

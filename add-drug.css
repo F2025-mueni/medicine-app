@@ -1,0 +1,109 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Body */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Form container */
+form {
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 30px 25px;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+  width: 400px;
+  max-width: 95%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Heading */
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  margin-bottom: 25px;
+  font-size: 2rem;
+}
+
+/* Inputs and select */
+input,
+select {
+  margin-bottom: 20px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #b2bec3;
+  border-radius: 5px;
+  outline: none;
+}
+
+/* Button */
+button {
+  padding: 12px;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #0984e3;
+  color: white;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+  background-color: #74b9ff;
+  transform: scale(1.03);
+}
+
+/* Responsive for tablets */
+@media (max-width: 768px) {
+  form {
+    width: 350px;
+    padding: 25px 20px;
+  }
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+/* Responsive for mobile */
+@media (max-width: 468px) {
+  form {
+    width: 90%;
+    padding: 20px 15px;
+  }
+  h2 {
+    font-size: 1.5rem;
+  }
+}
+/* Heading h2 for Add Drug page */
+h2 {
+  text-align: center;           /* Center the heading */
+  color: #2c3e50;               /* Dark, readable color */
+  margin-bottom: 25px;          /* Space below the heading */
+  font-size: 2rem;              /* Large enough for emphasis */
+  font-weight: bold;            /* Make it bold */
+  font-family: 'Arial', sans-serif;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 468px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+}

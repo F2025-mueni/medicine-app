@@ -1,0 +1,96 @@
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Body background */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ffeaa7, #fab1a0);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Page heading */
+h2 {
+  text-align: center;
+  color: #2d3436;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+/* Restock list */
+#restockList {
+  list-style: none;
+  width: 100%;
+  max-width: 600px;
+}
+
+/* List items */
+#restockList li {
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 15px 20px;
+  margin-bottom: 12px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 1rem;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+/* Hover effect */
+#restockList li:hover {
+  transform: translateY(-2px);
+  background-color: rgba(255, 255, 255, 1);
+}
+
+/* Status badge */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+
+.status-low {
+  background-color: #00b894; /* Green */
+}
+
+.status-medium {
+  background-color: #fdcb6e; /* Orange */
+}
+
+.status-critical {
+  background-color: #d63031; /* Red */
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.8rem;
+  }
+  #restockList li {
+    font-size: 0.95rem;
+    padding: 12px 15px;
+  }
+}
+
+@media (max-width: 468px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+  #restockList li {
+    font-size: 0.9rem;
+    padding: 10px 12px;
+  }
+}

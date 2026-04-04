@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>User Dashboard</title>
+
+  <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <link rel="stylesheet" href="user.css">
+</head>
+<body>
+
+  <h2>Sell Drugs</h2>
+
+  <div class="sell-section">
+    <select id="drugSelect"></select>
+    <input type="number" id="qty" placeholder="Quantity">
+    <button onclick="sellDrug()">Sell</button>
+  </div>
+
+  <h2>Sales Dashboard</h2>
+
+  <div class="total-sales">
+    <div class="card total">
+      <i class="fa-solid fa-coins"></i>
+      <p>Total Sales</p>
+      <span id="totalSales">KSh 0</span>
+    </div>
+  </div>
+
+  <div class="sales-totals">
+    <div class="card daily">
+      <i class="fa-solid fa-calendar-day"></i>
+      <p>Today's Sales</p>
+      <span id="dailyTotal">KSh 0</span>
+    </div>
+    <div class="card monthly">
+      <i class="fa-solid fa-calendar"></i>
+      <p>This Month</p>
+      <span id="monthlyTotal">KSh 0</span>
+    </div>
+    <div class="card yearly">
+      <i class="fa-solid fa-calendar-check"></i>
+      <p>This Year</p>
+      <span id="yearlyTotal">KSh 0</span>
+    </div>
+  </div>
+
+  <h2>Sales List</h2>
+
+  <table border="1" width="100%">
+    <thead>
+      <tr>
+        <th>Drug</th>
+        <th>Category</th>
+        <th>Quantity</th>
+        <th>Total (KSh)</th>
+        <th>Date</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="salesBody"></tbody>
+  </table>
+
+  <script type="module" src="user.js"></script>
+  <script type="module" src="app.js"></script>
+
+</body>
+</html>

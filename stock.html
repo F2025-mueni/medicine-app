@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Stock</title>
+  <link rel="stylesheet" href="stock.css">
+</head>
+<body>
+  <h2>Stock Available</h2>
+
+  <!-- Search bar -->
+  <input type="text" id="searchInput" placeholder="Search by name or category" style="margin-bottom:10px; padding:8px; width:100%; max-width:400px;">
+
+  <div class="table-wrapper">
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Qty</th>
+          <th>Expiry</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="stockTable"></tbody>
+    </table>
+  </div>
+
+  <script type="module" src="stock.js"></script>
+</body>
+</html>

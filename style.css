@@ -1,0 +1,66 @@
+/* Reset some defaults */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Body styles */
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Heading */
+h1 {
+  font-size: 3rem;
+  margin-bottom: 40px;
+  text-shadow: 2px 2px rgba(0,0,0,0.2);
+}
+
+/* Login button */
+a button {
+  padding: 15px 40px;
+  font-size: 1.2rem;
+  color: #fff;
+  background-color: #0984e3;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+a button:hover {
+  background-color: #74b9ff;
+  transform: scale(1.05);
+}
+
+/* Responsive for tablets */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  a button {
+    padding: 12px 30px;
+    font-size: 1rem;
+  }
+}
+
+/* Responsive for small mobile screens */
+@media (max-width: 468px) {
+  h1 {
+    font-size: 2rem;
+  }
+  a button {
+    padding: 10px 25px;
+    font-size: 0.9rem;
+  }
+}

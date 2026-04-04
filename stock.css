@@ -1,0 +1,140 @@
+/* Table container wrapper for scroll */
+.table-wrapper {
+  width: 100%;
+  max-width: 900px;
+  overflow-x: auto; /* horizontal scroll on small screens */
+  margin-bottom: 20px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  background-color: white;
+  padding: 10px;
+}
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+/* Body background */
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #6c5ce7, #00b894);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Page heading */
+h2 {
+  text-align: center;
+  color: #2c3e50;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+/* Search bar */
+#searchInput {
+  margin-bottom: 15px;
+  padding: 8px;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Table headers */
+table thead th {
+  background-color: #0984e3;
+  color: white;
+  padding: 12px;
+  text-align: center;
+  position: sticky;
+  top: 0;
+}
+
+/* Table cells */
+table tbody td {
+  padding: 10px;
+  text-align: center;
+  border-bottom: 1px solid #b2bec3;
+}
+
+/* Zebra stripes */
+table tbody tr:nth-child(even) {
+  background-color: rgba(200, 200, 200, 0.1);
+}
+
+/* Status coloring */
+.status-ok {
+  color: green;
+  font-weight: bold;
+}
+.status-low {
+  color: red;
+  font-weight: bold;
+}
+
+/* Buttons */
+button {
+  padding: 5px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.2s;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button:first-child {
+  background-color: #0984e3;
+  color: white;
+}
+
+button:last-child {
+  background-color: #d63031;
+  color: white;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  h2 {
+    font-size: 1.8rem;
+  }
+  table thead th,
+  table tbody td {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 468px) {
+  h2 {
+    font-size: 1.5rem;
+  }
+  table {
+    font-size: 0.85rem;
+  }
+  button {
+    padding: 4px 6px;
+    font-size: 0.8rem;
+  }
+}
