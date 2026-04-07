@@ -15,13 +15,14 @@ h2 {
   color: #2c3e50;
 }
 
-/* Sell section layout */
+/* ===== Sell Section ===== */
 .sell-section {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
 }
 
 .sell-section select,
@@ -34,7 +35,7 @@ h2 {
 }
 
 .sell-section button {
-  background-color: #3498db;
+  background-color: #28a745;
   color: white;
   border: none;
   cursor: pointer;
@@ -42,14 +43,22 @@ h2 {
 }
 
 .sell-section button:hover {
-  background-color: #2980b9;
+  background-color: #218838;
 }
 
-/* Total Sales card */
+/* Search input for Sell Drugs */
+.sell-section .search-input {
+  width: 250px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+/* ===== Total Sales card ===== */
 .total-sales {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
+  flex-wrap: wrap;
 }
 
 .card.total {
@@ -59,11 +68,11 @@ h2 {
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.15);
+  text-align: center;
 }
 
 .card.total i {
   font-size: 36px;
-  color: white;
   margin-bottom: 10px;
 }
 
@@ -71,7 +80,7 @@ h2 {
   font-size: 28px;
 }
 
-/* Daily/Monthly/Yearly cards */
+/* ===== Daily/Monthly/Yearly cards ===== */
 .sales-totals {
   display: flex;
   justify-content: center;
@@ -114,7 +123,81 @@ h2 {
   transform: translateY(-5px);
 }
 
-/* Responsive */
+/* ===== Sales Table ===== */
+.table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+}
+
+#salesTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+#salesTable thead {
+  background: #007bff;
+  color: white;
+}
+
+#salesTable th,
+#salesTable td {
+  padding: 12px;
+  text-align: center;
+}
+
+#salesTable tbody tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#salesTable tbody tr:hover {
+  background: #f1f1f1;
+}
+
+/* Buttons in table */
+button {
+  padding: 6px 10px;
+  margin: 2px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+/* Edit/Delete Buttons */
+button[onclick^="editSale"] {
+  background: #ffc107;
+  color: black;
+}
+
+button[onclick^="deleteSale"] {
+  background: #dc3545;
+  color: white;
+}
+
+/* ===== Search Inputs ===== */
+.sales-search {
+  margin-bottom: 15px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sales-search input {
+  padding: 8px 12px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  width: 200px;
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
   .sell-section {
     flex-direction: column;
@@ -126,178 +209,40 @@ h2 {
     gap: 15px;
     align-items: center;
   }
-}
-/* GENERAL */
-body {
-font-family: Arial, sans-serif;
-background: #f4f6f9;
-margin: 0;
-padding: 20px;
+
+  #salesTable th,
+  #salesTable td {
+    padding: 10px;
+    font-size: 14px;
+  }
 }
 
-h2 {
-margin-top: 20px;
-color: #333;
-}
-
-/* SELL SECTION */
-.sell-section {
-display: flex;
-gap: 10px;
-margin-bottom: 20px;
-}
-
-.sell-section select,
-.sell-section input {
-padding: 10px;
-font-size: 16px;
-}
-
-.sell-section button {
-background: #28a745;
-color: white;
-border: none;
-padding: 10px 15px;
-cursor: pointer;
-border-radius: 5px;
-}
-
-.sell-section button:hover {
-background: #218838;
-}
-
-/* CARDS */
-.total-sales,
-.sales-totals {
-display: flex;
-gap: 15px;
-margin-bottom: 20px;
-flex-wrap: wrap;
-}
-
-.card {
-flex: 1;
-min-width: 200px;
-background: white;
-padding: 20px;
-border-radius: 10px;
-box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-text-align: center;
-}
-
-.card i {
-font-size: 24px;
-margin-bottom: 10px;
-color: #007bff;
-}
-
-.card span {
-font-size: 20px;
-font-weight: bold;
-}
-
-/* TABLE */
-.table-container {
-overflow-x: auto;
-}
-
-#salesTable {
-width: 100%;
-border-collapse: collapse;
-background: white;
-border-radius: 10px;
-overflow: hidden;
-}
-
-#salesTable thead {
-background: #007bff;
-color: white;
-}
-
-#salesTable th,
-#salesTable td {
-padding: 12px;
-text-align: center;
-}
-
-#salesTable tbody tr {
-border-bottom: 1px solid #ddd;
-}
-
-#salesTable tbody tr:hover {
-background: #f1f1f1;
-}
-
-/* BUTTONS */
-button {
-padding: 6px 10px;
-margin: 2px;
-border: none;
-border-radius: 5px;
-cursor: pointer;
-}
-
-button:hover {
-opacity: 0.9;
-}
-
-/* Edit */
-button[onclick^="editSale"] {
-background: #ffc107;
-color: black;
-}
-
-/* Delete */
-button[onclick^="deleteSale"] {
-background: #dc3545;
-color: white;
-}
-
-/* RESPONSIVE - TABLET */
-@media (max-width: 768px) {
-
-.sell-section {
-flex-direction: column;
-}
-
-.card {
-min-width: 100%;
-}
-
-#salesTable th,
-#salesTable td {
-padding: 10px;
-font-size: 14px;
-}
-}
-
-/* RESPONSIVE - MOBILE */
 @media (max-width: 468px) {
+  body {
+    padding: 10px;
+  }
 
-body {
-padding: 10px;
-}
+  h2 {
+    font-size: 18px;
+  }
 
-h2 {
-font-size: 18px;
-}
+  .sell-section input,
+  .sell-section select,
+  .sell-section .search-input {
+    width: 100%;
+  }
 
-.sell-section input,
-.sell-section select {
-width: 100%;
-}
+  .sell-section button {
+    width: 100%;
+  }
 
-.sell-section button {
-width: 100%;
-}
+  #salesTable th,
+  #salesTable td {
+    font-size: 12px;
+    padding: 8px;
+  }
 
-#salesTable th,
-#salesTable td {
-font-size: 12px;
-padding: 8px;
-}
-
-.card span {
-font-size: 16px;
-}
+  .card span {
+    font-size: 16px;
+  }
 }
