@@ -1,23 +1,30 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>User Dashboard</title>
 
   <link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-  <link rel="stylesheet" href="user.css">
+  <link rel="stylesheet" href="user.css" />
 </head>
 <body>
 
   <h2>Sell Drugs</h2>
 
   <div class="sell-section">
+    <!-- SEARCH BAR for drugs -->
+    <input
+      type="text"
+      id="drugSearch"
+      placeholder="Search drugs by name or category"
+      autocomplete="off"
+      style="margin-bottom: 8px; padding: 6px; width: 100%; max-width: 400px;"
+    />
     <select id="drugSelect"></select>
-    <input type="number" id="qty" placeholder="Quantity">
+    <input type="number" id="qty" placeholder="Quantity" />
     <button onclick="sellDrug()">Sell</button>
   </div>
 
@@ -51,6 +58,18 @@
 
   <h2>Sales List</h2>
 
+  <!-- SALES DATE FILTER -->
+  <div id="salesFilter" style="margin-bottom: 12px;">
+    <label>
+      From: <input type="date" id="startDate" />
+    </label>
+    <label style="margin-left: 12px;">
+      To: <input type="date" id="endDate" />
+    </label>
+    <button id="filterSalesBtn" style="margin-left: 12px;">Filter Sales</button>
+    <button id="clearSalesFilterBtn" style="margin-left: 6px;">Clear Filter</button>
+  </div>
+
   <table border="1" width="100%">
     <thead>
       <tr>
@@ -67,6 +86,5 @@
 
   <script type="module" src="user.js"></script>
   <script type="module" src="app.js"></script>
-
 </body>
 </html>
