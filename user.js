@@ -1,4 +1,3 @@
-// user.js
 import { db } from "./firebase.js";
 import {
   collection,
@@ -9,7 +8,8 @@ import {
   getDoc,
   query,
   where,
-  Timestamp
+  Timestamp,
+  serverTimestamp
 } from "https://www.gstatic.com/firebasejs/12.11.0/firebase-firestore.js";
 
 /* DOM Elements */
@@ -29,7 +29,7 @@ function formatKsh(amount) {
   return "KSh " + amount.toLocaleString("en-KE", { minimumFractionDigits: 2 });
 }
 
-/* Load drugs */
+/* Load drugs safely */
 async function loadDrugs() {
   try {
     const snapshot = await getDocs(collection(db, "drugs"));
@@ -42,17 +42,21 @@ async function loadDrugs() {
 
     snapshot.forEach(docSnap => {
       const drug = docSnap.data();
+      const name = drug.name || "Unnamed Drug";
+      const category = drug.category || "No Category";
+      const quantity = drug.quantity ?? 0;
 
       const option = document.createElement("option");
       option.value = docSnap.id;
-      option.textContent = `${drug.name} (${drug.category}) - ${drug.quantity} left`;
+      option.textContent = `${name} (${category}) - ${quantity} left`;
 
-      if ((drug.quantity ?? 0) <= MIN_STOCK) option.style.color = "red";
+      if (quantity <= MIN_STOCK) option.style.color = "red";
 
       select.appendChild(option);
     });
   } catch (error) {
     console.error("Error loading drugs:", error);
+    select.innerHTML = "<option>Error loading drugs</option>";
   }
 }
 
@@ -75,6 +79,12 @@ async function sellDrug() {
   }
 
   const drug = drugSnap.data();
+  const expiryDate = drug.expiry ? new Date(drug.expiry) : null;
+
+  if (expiryDate && expiryDate < new Date()) {
+    alert("Cannot sell expired drugs!");
+    return;
+  }
 
   if ((drug.quantity ?? 0) < qty) {
     alert("Not enough stock!");
@@ -85,27 +95,26 @@ async function sellDrug() {
 
   await addDoc(collection(db, "sales"), {
     drugId: id,
-    drugName: drug.name,
-    category: drug.category,
+    drugName: drug.name || "Unnamed Drug",
+    category: drug.category || "No Category",
     quantity: qty,
     price: drug.price ?? 0,
     totalPrice,
-    timestamp: new Date(), // ✅ FIXED
+    timestamp: new Date(), // use current date/time
   });
 
   await updateDoc(drugRef, {
-    quantity: drug.quantity - qty,
+    quantity: (drug.quantity ?? 0) - qty,
   });
 
   alert(`Sold ${qty} x ${drug.name} for ${formatKsh(totalPrice)}`);
-
   qtyInput.value = "";
   await loadDrugs();
   await loadSales();
   await updateSalesTotals();
 }
 
-/* ✅ GROUPED SALES (MAIN FIX) */
+/* Load sales list grouped by day */
 async function loadSales() {
   try {
     const snapshot = await getDocs(collection(db, "sales"));
@@ -119,50 +128,56 @@ async function loadSales() {
 
       const id = docSnap.id;
 
-      // ✅ Safe timestamp handling
-      const dateObj = sale.timestamp?.toDate?.() || new Date();
+      // Convert Firestore timestamp to JS Date
+      const dateObj = sale.timestamp ? sale.timestamp.toDate() : new Date();
+
+      // Format date string for grouping
       const dateKey = dateObj.toLocaleDateString();
 
-      if (!grouped[dateKey]) {
-        grouped[dateKey] = [];
-      }
+      if (!grouped[dateKey]) grouped[dateKey] = [];
 
       grouped[dateKey].push({ ...sale, id, dateObj });
     });
 
-    // ✅ Sort days (latest first)
+    // Sort dates descending
     const sortedDates = Object.keys(grouped).sort(
       (a, b) => new Date(b) - new Date(a)
     );
 
     sortedDates.forEach(date => {
-      // Day header
-      salesBody.innerHTML += `
-        <tr style="background:#ddd; font-weight:bold;">
-          <td colspan="6">📅 ${date}</td>
-        </tr>
-      `;
+      // Create header row
+      const headerRow = document.createElement("tr");
+      headerRow.style.background = "#ddd";
 
-      // Sort sales inside day
+      const headerCell = document.createElement("td");
+      headerCell.colSpan = 6;
+      headerCell.textContent = "📅 " + date;
+      headerCell.style.fontWeight = "bold";
+
+      headerRow.appendChild(headerCell);
+      salesBody.appendChild(headerRow);
+
+      // Sort sales inside date by time descending
       grouped[date].sort((a, b) => b.dateObj - a.dateObj);
 
       grouped[date].forEach(sale => {
-        salesBody.innerHTML += `
-          <tr>
-            <td>${sale.drugName}</td>
-            <td>${sale.category}</td>
-            <td>${sale.quantity}</td>
-            <td>${formatKsh(sale.totalPrice)}</td>
-            <td>${date}</td>
-            <td>
-              <button onclick="editSale('${sale.id}')">Edit</button>
-              <button onclick="deleteSale('${sale.id}')">Delete</button>
-            </td>
-          </tr>
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+          <td>${sale.drugName || "N/A"}</td>
+          <td>${sale.category || "N/A"}</td>
+          <td>${sale.quantity ?? 0}</td>
+          <td>${formatKsh(sale.totalPrice ?? 0)}</td>
+          <td>${date}</td>
+          <td>
+            <button onclick="editSale('${sale.id}')">Edit</button>
+            <button onclick="deleteSale('${sale.id}')">Delete</button>
+          </td>
         `;
+
+        salesBody.appendChild(row);
       });
     });
-
   } catch (error) {
     console.error("Error loading sales:", error);
   }
@@ -170,67 +185,72 @@ async function loadSales() {
 
 /* Edit sale */
 async function editSale(id) {
-  const saleRef = doc(db, "sales", id);
-  const saleSnap = await getDoc(saleRef);
-  if (!saleSnap.exists()) return;
+  try {
+    const saleRef = doc(db, "sales", id);
+    const saleSnap = await getDoc(saleRef);
+    if (!saleSnap.exists()) return;
 
-  const sale = saleSnap.data();
-  const newQty = Number(prompt("New quantity:", sale.quantity));
-  if (!newQty || newQty <= 0) return;
+    const sale = saleSnap.data();
+    const newQty = Number(prompt("New quantity:", sale.quantity));
+    if (!newQty || newQty <= 0) return;
 
-  const drugRef = doc(db, "drugs", sale.drugId);
-  const drugSnap = await getDoc(drugRef);
-  if (!drugSnap.exists()) return;
+    const drugRef = doc(db, "drugs", sale.drugId);
+    const drugSnap = await getDoc(drugRef);
+    if (!drugSnap.exists()) return;
 
-  const drug = drugSnap.data();
-  let stock = drug.quantity + sale.quantity;
+    const drug = drugSnap.data();
+    let stock = (drug.quantity ?? 0) + (sale.quantity ?? 0);
 
-  if (stock < newQty) {
-    alert("Not enough stock!");
-    return;
+    if (stock < newQty) {
+      alert("Not enough stock!");
+      return;
+    }
+
+    stock -= newQty;
+    const newTotal = newQty * (sale.price ?? 0);
+
+    await updateDoc(saleRef, { quantity: newQty, totalPrice: newTotal });
+    await updateDoc(drugRef, { quantity: stock });
+
+    alert("Sale updated!");
+    await loadSales();
+    await loadDrugs();
+    await updateSalesTotals();
+  } catch (error) {
+    console.error("Error editing sale:", error);
   }
-
-  stock -= newQty;
-  const newTotal = newQty * sale.price;
-
-  await updateDoc(saleRef, { quantity: newQty, totalPrice: newTotal });
-  await updateDoc(drugRef, { quantity: stock });
-
-  alert("Sale updated!");
-  await loadSales();
-  await loadDrugs();
-  await updateSalesTotals();
 }
 
 /* Delete sale */
 async function deleteSale(id) {
-  if (!confirm("Delete sale?")) return;
+  try {
+    if (!confirm("Delete sale?")) return;
 
-  const saleRef = doc(db, "sales", id);
-  const saleSnap = await getDoc(saleRef);
-  if (!saleSnap.exists()) return;
+    const saleRef = doc(db, "sales", id);
+    const saleSnap = await getDoc(saleRef);
+    if (!saleSnap.exists()) return;
 
-  const sale = saleSnap.data();
+    const sale = saleSnap.data();
+    const drugRef = doc(db, "drugs", sale.drugId);
+    const drugSnap = await getDoc(drugRef);
 
-  const drugRef = doc(db, "drugs", sale.drugId);
-  const drugSnap = await getDoc(drugRef);
+    if (drugSnap.exists()) {
+      const drug = drugSnap.data();
+      await updateDoc(drugRef, { quantity: (drug.quantity ?? 0) + (sale.quantity ?? 0) });
+    }
 
-  if (drugSnap.exists()) {
-    const drug = drugSnap.data();
-    await updateDoc(drugRef, {
-      quantity: drug.quantity + sale.quantity
-    });
+    await updateDoc(saleRef, { deleted: true });
+
+    alert("Sale deleted!");
+    await loadSales();
+    await loadDrugs();
+    await updateSalesTotals();
+  } catch (error) {
+    console.error("Error deleting sale:", error);
   }
-
-  await updateDoc(saleRef, { deleted: true });
-
-  alert("Sale deleted!");
-  await loadSales();
-  await loadDrugs();
-  await updateSalesTotals();
 }
 
-/* Totals */
+/* Sales totals */
 async function getSalesTotal(start, end) {
   const q = query(
     collection(db, "sales"),
@@ -254,7 +274,6 @@ async function updateSalesTotals() {
 
   const startDay = new Date();
   startDay.setHours(0,0,0,0);
-
   const endDay = new Date();
   endDay.setHours(23,59,59,999);
 
@@ -272,7 +291,6 @@ async function updateSalesTotals() {
 
   const allSnap = await getDocs(collection(db, "sales"));
   let totalAll = 0;
-
   allSnap.forEach(doc => {
     const sale = doc.data();
     if (!sale.deleted) totalAll += sale.totalPrice ?? 0;
@@ -284,12 +302,12 @@ async function updateSalesTotals() {
   yearlyEl.textContent = formatKsh(yearly);
 }
 
-/* Init */
+/* Initialize */
 loadDrugs();
 loadSales();
 updateSalesTotals();
 
-/* Global */
+/* Make functions global */
 window.sellDrug = sellDrug;
 window.editSale = editSale;
 window.deleteSale = deleteSale;
